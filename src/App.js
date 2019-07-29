@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Gauge from "react-radial-gauge";
 import { getSimiliarity } from "./ComparisonEngine";
 import { toast, ToastContainer } from "react-toastify";
@@ -42,11 +42,24 @@ class App extends Component {
 							needleColor="red"
 							needleWidth="12"
 							needleSharp="true"
-							progressColor="#3d8cd0"
+							progressColor="#ff0000"
 						/>
 					</div>
 					<div className="col-xs-12">
-						<Button onClick={() => this.getSimilarityValue()}>Compare</Button>
+						<Button
+							onClick={() => this.getSimilarityValue()}
+							variant="danger"
+							style={{ fontSize: 25 }}
+						>
+							Compare
+						</Button>
+						<Button
+							onClick={() => this.setState({ showInnerWorkingsModal: true })}
+							variant="danger"
+							style={{ fontSize: 25 }}
+						>
+							�
+						</Button>
 					</div>
 				</div>
 				<div className="col-xs-12">
@@ -62,6 +75,7 @@ class App extends Component {
 						width={window.innerWidth * 0.48}
 						height={window.innerHeight * 0.6}
 						showPrintMargin={false}
+						placeholder="//Enter JavaScript here"
 					/>
 				</div>
 				<div className="col-xs-6">
@@ -74,15 +88,16 @@ class App extends Component {
 						width={window.innerWidth * 0.48}
 						height={window.innerHeight * 0.6}
 						showPrintMargin={false}
+						placeholder="//and also here"
 					/>
 				</div>
 				<ToastContainer style={{ width: "40%", fontSize: "25pt" }} />
+				{this.innerWorkingsModal()}
 			</div>
 		);
 	}
 
 	updateCode(newValue, key) {
-		console.log(newValue);
 		let code = this.state.code;
 
 		code[key] = newValue;
@@ -91,8 +106,6 @@ class App extends Component {
 	}
 
 	getSimilarityValue = async () => {
-		let similarity = 0;
-
 		try {
 			let similarity = (
 				100 -
@@ -121,6 +134,57 @@ class App extends Component {
 			});
 		}
 	};
+
+	innerWorkingsModal() {
+		return (
+			<Modal
+				animation={false}
+				show={this.state.showInnerWorkingsModal}
+				size="lg"
+			>
+				<Modal.Header>
+					<Modal.Title>Basic Details</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					The system has been engineered to ignore the following for better
+					comparison:
+					<ul>
+						<li>Identifier names</li>
+						<li>White spaces</li>
+						<li>Comments</li>
+						<li>Code Order</li>
+						<li>Literal Values (type information kept)</li>
+						<li>Any positional Information</li>
+					</ul>
+					Limitations with current version:
+					<ul>
+						<li>
+							Array content is not adequately weighted or interally assessed (no
+							function inlining)
+						</li>
+						<li>
+							Functions declared as variables (i.e.{" "}
+							<code>const fun = () =></code>) do not have their contents
+							analysed{" "}
+						</li>
+					</ul>
+					Much greater details can be found in the{" "}
+					<a href="https://github.com//Gregam3/Thesis/raw/master/thesis.pdf">
+						paper
+					</a>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						variant="secondary"
+						onClick={() => this.setState({ showInnerWorkingsModal: false })}
+					>
+						{" "}
+						Close{" "}
+					</Button>
+				</Modal.Footer>
+			</Modal>
+		);
+	}
 }
 
 export default App;
