@@ -136,4 +136,4 @@ const countKeys = obj => {
 	return JSON.stringify(obj).match(/[^\\]":/g).length;
 };
 
-module.exports.getSimiliarity = getSimiliarity;
+export { getSimiliarity };

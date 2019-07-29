@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { Button } from "react-bootstrap";
 import Gauge from "react-radial-gauge";
-import getSimiliarity from "./ComparisonEngine";
+import { getSimiliarity } from "./ComparisonEngine";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
