@@ -182,6 +182,4 @@ const eliminateNodeDetails = node => {
 	return node;
 };
 
-module.exports.flattenAST = flattenAST;
-module.exports.eliminateNodeDetails = eliminateNodeDetails;
-module.exports.eliminateLoggingNodes = eliminateLoggingNodes;
+export { flattenAST, eliminateNodeDetails, eliminateLoggingNodes };

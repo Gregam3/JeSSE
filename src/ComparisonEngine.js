@@ -1,6 +1,11 @@
+import {
+	flattenAST,
+	eliminateNodeDetails,
+	eliminateLoggingNodes
+} from "./TreeSurgeon";
+
 const parser = require("@babel/parser");
 const deepDiff = require("deep-diff").diff;
-const TreeSurgeon = require("./TreeSurgeon");
 
 const parse = code =>
 	parser.parse(code, {
@@ -21,10 +26,8 @@ const extractTopLevelFuns = code => {
 const getSimiliarity = (baseFunStr, compareFunStr) => {
 	const getFlatAST = code => {
 		const ast = parse(code);
-		return TreeSurgeon.eliminateLoggingNodes(
-			TreeSurgeon.flattenAST(ast, extractTopLevelFuns(code))
-		)
-			.map(TreeSurgeon.eliminateNodeDetails)
+		return eliminateLoggingNodes(flattenAST(ast, extractTopLevelFuns(code)))
+			.map(eliminateNodeDetails)
 			.filter(node => !node.type.includes("Literal"));
 	};
 
