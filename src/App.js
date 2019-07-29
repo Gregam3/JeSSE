@@ -33,7 +33,7 @@ class App extends Component {
 					className="col-xs-12"
 					style={{ textAlign: "center", color: "white" }}
 				>
-					Compare JavaScript
+					JavaScript Comparison
 				</h1>
 				<div className="col-xs-12 center">
 					<div className="col-xs-12">
@@ -106,32 +106,38 @@ class App extends Component {
 	}
 
 	getSimilarityValue = async () => {
-		try {
-			let similarity = (
-				100 -
-				(getSimiliarity(this.state.code.this, this.state.code.that) +
-					getSimiliarity(this.state.code.that, this.state.code.this)) *
-					100
-			).toFixed();
-
-			similarity = similarity > 0 ? similarity : 0;
-
-			while (this.state.similarity != similarity) {
-				if (this.state.similarity > similarity)
-					this.setState({
-						similarity: this.state.similarity - 1
-					});
-				else
-					this.setState({
-						similarity: this.state.similarity + 1
-					});
-				await sleep(10);
-			}
-		} catch (err) {
-			console.log(err);
-			toast.error("Syntax Error at:" + JSON.stringify(err), {
+		if (this.state.code.this.length < 1 || this.state.code.that.length < 1) {
+			toast.error("Both inputs must be populated.", {
 				position: toast.POSITION.TOP_LEFT
 			});
+		} else {
+			try {
+				let similarity = (
+					100 -
+					(getSimiliarity(this.state.code.this, this.state.code.that) +
+						getSimiliarity(this.state.code.that, this.state.code.this)) *
+						100
+				).toFixed();
+
+				similarity = similarity > 0 ? similarity : 0;
+
+				while (this.state.similarity != similarity) {
+					if (this.state.similarity > similarity)
+						this.setState({
+							similarity: this.state.similarity - 1
+						});
+					else
+						this.setState({
+							similarity: this.state.similarity + 1
+						});
+					await sleep(10);
+				}
+			} catch (err) {
+				console.log(err);
+				toast.error("Syntax Error at:" + JSON.stringify(err), {
+					position: toast.POSITION.TOP_LEFT
+				});
+			}
 		}
 	};
 
@@ -146,15 +152,18 @@ class App extends Component {
 					<Modal.Title>Basic Details</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					The system has been engineered to ignore the following for better
-					comparison:
+					The system
 					<ul>
-						<li>Identifier names</li>
-						<li>White spaces</li>
-						<li>Comments</li>
-						<li>Code Order</li>
-						<li>Literal Values (type information kept)</li>
-						<li>Any positional Information</li>
+						<li>Ignores Identifier names</li>
+						<li>Ignores White spaces</li>
+						<li>Ignores Comments</li>
+						<li>Ignores Code Order</li>
+						<li>Ignores Literal Values (type information kept)</li>
+						<li>Ignores Any positional Information</li>
+						<li>
+							Uses bilateral comparison, meaning the right and left side are
+							weighted evenly
+						</li>
 					</ul>
 					Limitations with current version:
 					<ul>
@@ -168,7 +177,7 @@ class App extends Component {
 							analysed{" "}
 						</li>
 					</ul>
-					Much greater details can be found in the{" "}
+					More detais found in the accompanying{" "}
 					<a href="https://github.com//Gregam3/Thesis/raw/master/thesis.pdf">
 						paper
 					</a>
