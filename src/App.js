@@ -33,17 +33,24 @@ class App extends Component {
 					className="col-xs-12"
 					style={{ textAlign: "center", color: "white" }}
 				>
-					JeSSE{" "}
-					<Button onClick={() => this.getSimilarityValue()}> Compare</Button>
+					Compare JavaScript
 				</h1>
-				<div className="col-xs-12" style={{ left: "43.5%" }}>
-					<Gauge
-						currentValue={this.state.similarity}
-						needleColor="red"
-						needleWidth="12"
-						needleSharp="true"
-						progressColor="#3d8cd0"
-					/>
+				<div className="col-xs-12 center">
+					<div className="col-xs-12">
+						<Gauge
+							currentValue={this.state.similarity}
+							needleColor="red"
+							needleWidth="12"
+							needleSharp="true"
+							progressColor="#3d8cd0"
+						/>
+					</div>
+					<div className="col-xs-12">
+						<Button onClick={() => this.getSimilarityValue()}>Compare</Button>
+					</div>
+				</div>
+				<div className="col-xs-12">
+					<br />
 				</div>
 				<div className="col-xs-6">
 					<AceEditor
@@ -51,9 +58,9 @@ class App extends Component {
 						theme={"solarized_dark"}
 						onChange={v => this.updateCode(v, "this")}
 						value={this.state.code.this}
-						fontSize={16}
-						width={window.innerWidth * 0.5}
-						height={window.innerHeight * 0.7}
+						fontSize={18}
+						width={window.innerWidth * 0.48}
+						height={window.innerHeight * 0.6}
 						showPrintMargin={false}
 					/>
 				</div>
@@ -63,9 +70,9 @@ class App extends Component {
 						theme={"solarized_dark"}
 						onChange={v => this.updateCode(v, "that")}
 						value={this.state.code.that}
-						fontSize={16}
-						width={window.innerWidth * 0.5}
-						height={window.innerHeight * 0.7}
+						fontSize={18}
+						width={window.innerWidth * 0.48}
+						height={window.innerHeight * 0.6}
 						showPrintMargin={false}
 					/>
 				</div>
