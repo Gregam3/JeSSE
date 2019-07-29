@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { Button } from "react-bootstrap";
 import Gauge from "react-radial-gauge";
-import ComparisonEngine from "./ComparisonEngine";
+import getSimiliarity from "./ComparisonEngine";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -96,14 +96,8 @@ class App extends Component {
 		try {
 			let similarity = (
 				100 -
-				(ComparisonEngine.getSimiliarity(
-					this.state.code.this,
-					this.state.code.that
-				) +
-					ComparisonEngine.getSimiliarity(
-						this.state.code.that,
-						this.state.code.this
-					)) *
+				(getSimiliarity(this.state.code.this, this.state.code.that) +
+					getSimiliarity(this.state.code.that, this.state.code.this)) *
 					100
 			).toFixed();
 
