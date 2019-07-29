@@ -5,7 +5,10 @@ import Gauge from "react-radial-gauge";
 import ComparisonEngine from "./ComparisonEngine";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { async } from "q";
+
+import AceEditor from "react-ace";
+import "brace/theme/solarized_dark";
+import "brace/mode/javascript";
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -25,8 +28,11 @@ class App extends Component {
 
 	render() {
 		return (
-			<div>
-				<h1 className="col-xs-12" style={{ textAlign: "center" }}>
+			<div className="App">
+				<h1
+					className="col-xs-12"
+					style={{ textAlign: "center", color: "white" }}
+				>
 					JeSSE{" "}
 					<Button onClick={() => this.getSimilarityValue()}> Compare</Button>
 				</h1>
@@ -40,26 +46,41 @@ class App extends Component {
 					/>
 				</div>
 				<div className="col-xs-6">
-					<textarea
-						name="body"
-						cols="100"
-						rows="40"
+					<AceEditor
+						mode={"javascript"}
+						theme={"solarized_dark"}
 						onChange={v => this.updateCode(v, "this")}
 						value={this.state.code.this}
+						fontSize={16}
+						width={window.innerWidth * 0.5}
+						height={window.innerHeight * 0.7}
+						showPrintMargin={false}
 					/>
 				</div>
 				<div className="col-xs-6">
-					<textarea
-						name="body"
-						cols="100"
-						rows="40"
+					<AceEditor
+						mode={"javascript"}
+						theme={"solarized_dark"}
 						onChange={v => this.updateCode(v, "that")}
 						value={this.state.code.that}
+						fontSize={16}
+						width={window.innerWidth * 0.5}
+						height={window.innerHeight * 0.7}
+						showPrintMargin={false}
 					/>
 				</div>
 				<ToastContainer style={{ width: "40%", fontSize: "25pt" }} />
 			</div>
 		);
+	}
+
+	updateCode(newValue, key) {
+		console.log(newValue);
+		let code = this.state.code;
+
+		code[key] = newValue;
+
+		this.setState({ code });
 	}
 
 	getSimilarityValue = async () => {
@@ -99,14 +120,6 @@ class App extends Component {
 			});
 		}
 	};
-
-	updateCode(event, key) {
-		let code = this.state.code;
-
-		code[key] = event.target.value;
-
-		this.setState({ code });
-	}
 }
 
 export default App;
